@@ -1,8 +1,9 @@
 package api
 
 import (
-	"github.com/rocketseat-education/semana-tech-go-react-server/internal/store/pgstore"
+	"net/http" // Importa o pacote net/http
 
+	"github.com/rocketseat-education/semana-tech-go-react-server/internal/store/pgstore"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -11,16 +12,15 @@ type apiHandler struct {
 	r *chi.Mux
 }
 
-func (h apiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request){
+func (h apiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.r.ServeHTTP(w, r)
-
 }
 
-func NewHandler(q *pgstore.Queries) hpp.Handler {
+func NewHandler(q *pgstore.Queries) http.Handler { 
 	a := apiHandler{
 		q: q,
 	}
-	r := chi.newRouter()
+	r := chi.NewRouter() 
 	a.r = r
 	return a
 }
